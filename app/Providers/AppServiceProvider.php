@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // This API has no 'login' route, so never redirect unauthenticated
+        // requests there — always let them fall through to a JSON 401.
+        Authenticate::redirectUsing(fn () => null);
     }
 }
